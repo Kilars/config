@@ -8,6 +8,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  programs.coreutils.enable = true;
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     nerd-fonts.fira-code
@@ -74,8 +75,12 @@
       lt = "eza -aT";
     };
   };
-  programs.autojump.enableZshIntegration = true;
-  programs.atuin.enableZshIntegration = true;
-  programs.dircolors.enableZshIntegration = true;
-  programs.fzf.enableZshIntegration = true;
+  programs.autojump = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.dircolors = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }
