@@ -8,7 +8,6 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  programs.coreutils.enable = true;
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     nerd-fonts.fira-code
@@ -19,6 +18,7 @@
     xclip
     xsel
     eza
+    bun
   ];
   home.shell.enableZshIntegration = true;
 
@@ -45,7 +45,9 @@
     };
   };
 
-  home.stateVersion = "25.05"; 
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
+  home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
   programs.git = {
