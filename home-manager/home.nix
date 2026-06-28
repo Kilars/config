@@ -79,6 +79,7 @@
       g = "git status";
       gcan = "git commit -a --amend --no-edit";
       vim = "nvim";
+      codium = "codium --no-sandbox";
       clc = "fc -ln -1 | sed 's/^\s*//' | sed 's/\s*$//' | tr -d '\n' | xsel --clipboard";
       lt = "eza -aT";
     };
