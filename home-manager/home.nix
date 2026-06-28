@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./claude.nix ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "larsski";
@@ -14,6 +16,7 @@
     curl
     git
     neovim
+    vscodium
     ripgrep
     xclip
     xsel
@@ -64,6 +67,9 @@
 
   programs.zsh = {
     enable = true;
+    initContent = ''
+      PROMPT='%F{cyan}%1~%f %# '
+    '';
     shellAliases = {
       ".." = "cd ..";
       "..." = "cd ../..";

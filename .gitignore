@@ -1,0 +1,27 @@
+*
+
+!.gitignore
+
+!AGENTS.md
+!CLAUDE.md
+
+!home-manager/
+!home-manager/flake.nix
+!home-manager/flake.lock
+!home-manager/home.nix
+!home-manager/home.nix
+!home-manager/claude.nix
+!home-manager/claude/
+!home-manager/claude/**
+!home-manager/nvim
+!home-manager/nvim/**
+
+!kitty/
+!kitty/**
+!nvim/
+!nvim/**
+
+# never track python bytecode (e.g. inside skills)
+__pycache__/
+*.pyc
+

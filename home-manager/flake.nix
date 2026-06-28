@@ -14,7 +14,12 @@
     { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        # claude-code ships under an unfree license; allow just that package.
+        config.allowUnfreePredicate = pkg:
+          builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
+      };
     in
     {
       homeConfigurations."larsski" = home-manager.lib.homeManagerConfiguration {
