@@ -24,7 +24,11 @@ bash ~/.claude/skills/fresh/reset.sh
 - To respawn in a different dir: `bash ~/.claude/skills/fresh/reset.sh /path/to/project`.
 
 ## How it stays alive
-`setsid … & disown` detaches the new session so it survives the current process dying.
+`setsid script -qfc … /dev/null & disown` spawns the new session under a **pseudo-tty** and
+detaches it so it survives the current process dying. The `script` PTY is essential: a plain
+`setsid claude … </dev/null` gets no tty, so `claude` treats it as non-interactive, demands a
+`--print` prompt, errors out and dies in ~1s — then the pkill kills *this* session and you're
+left with **nothing** (the exact failure this replaced).
 `pkill -o -f 'claude --remote-control'` kills only the **oldest** match — the current session —
 so the just-spawned one is untouched. (Caveat: if stale remote-control processes are lying
 around, the oldest of *those* is killed instead; normally there's just the one.)
