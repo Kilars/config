@@ -18,14 +18,50 @@
     neovim
     vscodium
     ripgrep
+    fd
     xclip
     xsel
     eza
     bun
+
+    # Neovim LSP servers + formatters (replaces mason; nvim finds these on PATH)
+    lua-language-server
+    rust-analyzer
+    typescript-language-server
+    vscode-langservers-extracted # html / cssls / jsonls
+    clang-tools # clangd + clang-format
+    stylua
+    prettier
+    shfmt
+    tree-sitter # treesitter parser compilation (:TSInstall)
   ];
   home.shell.enableZshIntegration = true;
 
   xdg.configFile."nvim".source = ./nvim;
+
+  # VSCodium ships its icon only at 1024x1024, a size not declared in any
+  # hicolor index.theme, so GNOME's themed lookup fails and shows a generic
+  # gear. Override the desktop entry with an absolute icon path (bypasses theme
+  # lookup); regenerated with the correct store path on every rebuild.
+  xdg.desktopEntries.codium = {
+    name = "VSCodium";
+    genericName = "Text Editor";
+    comment = "Code Editing. Redefined.";
+    exec = "codium %F";
+    icon = "${pkgs.vscodium}/share/pixmaps/vscodium.png";
+    startupNotify = true;
+    categories = [ "Utility" "TextEditor" "Development" "IDE" ];
+    type = "Application";
+    settings = {
+      Keywords = "vscode";
+      StartupWMClass = "vscodium";
+    };
+    actions.new-empty-window = {
+      name = "New Empty Window";
+      exec = "codium --new-window %F";
+      icon = "${pkgs.vscodium}/share/pixmaps/vscodium.png";
+    };
+  };
 
   programs.kitty = {
     enable = true;
@@ -77,6 +113,7 @@
       la = "ls -a";
       cl = "clear";
       g = "git status";
+      glg = "git log --short";
       gcan = "git commit -a --amend --no-edit";
       vim = "nvim";
       codium = "codium --no-sandbox";
