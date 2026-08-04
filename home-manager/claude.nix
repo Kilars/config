@@ -34,6 +34,9 @@ in
       model = "opus";
       effortLevel = "xhigh";
       theme = "dark";
+      permissions = {
+        defaultMode = "auto";
+      };
       enabledPlugins = {
         "claude-mem@thedotmack" = true;
       };
