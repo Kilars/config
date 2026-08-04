@@ -6,7 +6,7 @@ description: Restart the current Claude Code REMOTE-CONTROL session with a clean
 # /fresh — respawn the remote-control session, clean, in auto mode
 
 Purpose: from a phone-driven remote-control session you can't hit `/clear`. This spawns a
-**new** `claude remote-control` session (auto permission mode) detached, then **kills the
+**new** `claude --remote-control` session (auto permission mode) detached, then **kills the
 current one**. On the phone the old session drops and a new `cc-HHMMSS` appears — tap it.
 
 ## Do this
@@ -25,10 +25,11 @@ bash ~/.claude/skills/fresh/reset.sh
 
 ## How it stays alive
 `setsid … & disown` detaches the new session so it survives the current process dying.
-`pkill -o -f 'claude remote-control'` kills only the **oldest** match — the current session —
+`pkill -o -f 'claude --remote-control'` kills only the **oldest** match — the current session —
 so the just-spawned one is untouched. (Caveat: if stale remote-control processes are lying
 around, the oldest of *those* is killed instead; normally there's just the one.)
 
 ## Requires
-`claude` ≥ 2.1.x with the `remote-control` subcommand (verified present). No settings.json
-changes — nothing nix-managed is touched.
+`claude` ≥ 2.1.x with the `--remote-control [name]` flag (a flag, not a subcommand — there is
+no `claude remote-control` subcommand). No settings.json changes — nothing nix-managed is
+touched.
