@@ -16,8 +16,6 @@
 !home-manager/nvim
 !home-manager/nvim/**
 
-!kitty/
-!kitty/**
 !nvim/
 !nvim/**
 
