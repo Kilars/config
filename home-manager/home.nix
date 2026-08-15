@@ -24,6 +24,11 @@
     eza
     bun
 
+    # Document conversion: markdown -> PDF via pandoc's native typst engine
+    # (no LaTeX, no Python deps). Build with: pandoc in.md -o out.pdf --pdf-engine=typst
+    pandoc
+    typst
+
     # Neovim LSP servers + formatters (replaces mason; nvim finds these on PATH)
     lua-language-server
     rust-analyzer
