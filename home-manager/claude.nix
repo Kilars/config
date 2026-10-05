@@ -36,6 +36,14 @@ in
       theme = "dark";
       permissions = {
         defaultMode = "auto";
+        # /fresh respawns the remote-control session by pkill-ing the current
+        # one. Auto mode's safety classifier can't evaluate that ("could not
+        # evaluate this action") and blocks it, so it needs an explicit allow.
+        # Both forms: bare (same cwd) and with a target dir argument.
+        allow = [
+          "Bash(bash ~/.claude/skills/fresh/reset.sh)"
+          "Bash(bash ~/.claude/skills/fresh/reset.sh:*)"
+        ];
       };
       enabledPlugins = {
         "claude-mem@thedotmack" = true;

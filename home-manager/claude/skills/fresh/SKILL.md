@@ -27,11 +27,18 @@ bash ~/.claude/skills/fresh/reset.sh
 `setsid script -qfc … /dev/null & disown` spawns the new session under a **pseudo-tty** and
 detaches it so it survives the current process dying. The `script` PTY is essential: a plain
 `setsid claude … </dev/null` gets no tty, so `claude` treats it as non-interactive, demands a
-`--print` prompt, errors out and dies in ~1s — then the pkill kills *this* session and you're
-left with **nothing** (the exact failure this replaced).
-`pkill -o -f 'claude --remote-control'` kills only the **oldest** match — the current session —
-so the just-spawned one is untouched. (Caveat: if stale remote-control processes are lying
-around, the oldest of *those* is killed instead; normally there's just the one.)
+`--print` prompt, errors out and dies in ~1s — then the kill below takes out *this* session and
+you're left with **nothing** (the exact failure this replaced).
+
+## How it kills the *right* session
+Before spawning the replacement, the script walks up its own parent chain (`$$` → … → the
+`claude --remote-control` ancestor) to capture **this session's exact PID** and its `script`
+PTY-wrapper PID, then `kill`s precisely those. The freshly spawned session has a different PID,
+so it's untouched, and any **stale** remote-control sessions lying around are left alone.
+(The old version used `pkill -o -f 'claude --remote-control'` — kill the *oldest* match — which
+targeted the wrong process whenever a stale session existed; the `script` wrapper matches that
+pattern too, compounding it. That's why `/fresh` used to leave orphans behind.) If the walk-up
+can't resolve our own PID, it falls back to the old `pkill -o` so `/fresh` still does something.
 
 ## Requires
 `claude` ≥ 2.1.x with the `--remote-control [name]` flag (a flag, not a subcommand — there is
