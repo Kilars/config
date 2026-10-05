@@ -106,6 +106,15 @@
     };
   };
 
+  # GitHub CLI; also registers gh as git's credential helper for github.com.
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "https";
+      aliases.co = "pr checkout";
+    };
+  };
+
   programs.zsh = {
     enable = true;
     initContent = ''
